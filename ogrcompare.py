@@ -75,7 +75,10 @@ def compare(source1, source2, args=None):
     compare_fields(layer1, layer2)
     if not args.schema_only:
         compare_feature_counts(layer1, layer2)
-        compare_features(layer1, layer2, compare_common_fields=args.matched_fields_only)
+        compare_features(layer1,
+                         layer2,
+                         compare_common_fields=args.matched_fields_only,
+                         ignore_equal=not args.report_all)
 
     Windows.enable()
     results.dump_console()
@@ -94,9 +97,12 @@ def compare_features(layer1,
     else:
         rowtitles = list(set(fields1 + fields2))
 
+    fieldsfordata = list(rowtitles)
     rowtitles.insert(0, "Fields")
+    rowtitles.append("GEOMETRY")
     count = 0
     for f1 in iter1:
+        rowheaders = list(rowtitles)
         values1 = []
         values2 = []
         try:
@@ -104,7 +110,7 @@ def compare_features(layer1,
         except StopIteration:
             break
 
-        for field in rowtitles[1:]:
+        for field in fieldsfordata:
             try:
                 value1 = f1.GetField(field)
             except ValueError:
@@ -113,16 +119,28 @@ def compare_features(layer1,
                 value2 = f2.GetField(field)
             except ValueError:
                 value2 = NODATA
+
             if value1 == value2 and ignore_equal:
+                index = rowheaders.index(field)
+                del rowheaders[index]
                 continue
+
             values1.append(value1)
             values2.append(value2)
 
-        datatable =  _gen_compare_table(values1, values2, rowtitles=rowtitles)
+        geom1 = f1.GetGeometryRef()
+        geom2 = f2.GetGeometryRef()
+        if geom1 == geom2 and ignore_equal:
+            index = rowheaders.index("GEOMETRY")
+            del rowheaders[index]
+            continue
+
+        values1.append(geom1)
+        values2.append(geom2)
+
+        datatable =  _gen_compare_table(values1, values2,
+                                        rowtitles=rowheaders)
         results.featurecompare.append([f1.GetFID(), f2.GetFID(), datatable])
-        # count += 1
-        # if count == 2:
-        #     break
 
 def _getfields(layer, names_only=False, keep_order=False):
     layerDefinition = layer.GetLayerDefn()
@@ -155,12 +173,20 @@ def _gen_compare_table(list1, list2, rowtitles=None):
     # comparetable.append(header)
     for count, items  in enumerate(itertools.izip_longest(list1, list2, fillvalue="--"), start=1):
         item1, item2 = items[0], items[1]
+        if isinstance(item1, ogr.Geometry) and isinstance(item2, ogr.Geometry):
+            geom1, geom2 = item1, item2
+            item1, item2 = geom1.ExportToWkt(), geom2.ExportToWkt()
+            display1, display2 = item1[:30], item2[:30]
+        else:
+            display1, display2 = item1, item2
+
         op = "="
         if item1 != item2:
             op = Color(r'{autored}!={/autored}')
         elif item1 == item2:
             op = Color(r'{autogreen}={/autogreen}')
-        data = [item1, op, item2]
+
+        data = [display1, op, display2]
         if rowtitles:
             try:
                 data.insert(0, rowtitles[count])
@@ -191,6 +217,7 @@ if __name__ == "__main__":
     Windows.enable()
     parser = argparse.ArgumentParser(description='Compare two OGR datasets')
     parser.add_argument('--matched-fields-only', action='store_true', help="Only show matching fields when comparing data.")
+    parser.add_argument('--report-all', action='store_true', help="Include all fields even if equal")
     parser.add_argument('--schema-only', action='store_true', help="Only compare schemas.")
     parser.add_argument('--ascii', action='store_true', help="Generate the report tables in ascii mode. Use this if you want to pipe stdout")
     parser.add_argument('Source1', help='OGR supported format')
