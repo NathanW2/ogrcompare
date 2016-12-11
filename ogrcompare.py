@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 
+# from __future__ import print_function
+
+import argparse
 import sys
 import itertools
 from osgeo import ogr
 import os
 
-from terminaltables import SingleTable, AsciiTable
+from terminaltables import SingleTable, AsciiTable, GithubFlavoredMarkdownTable
 from colorclass import Color, Windows
 
 NODATA = "---"
+#
+# def eprint(*args, **kwargs):
+#     print(*args, file=sys.stderr, **kwargs)
 
 class Results:
     def __init__(self, source1, source2):
@@ -18,24 +24,29 @@ class Results:
         self.fieldsdiffer = False
         self.source1 = source1
         self.source2 = source2
+        self.TableType = AsciiTable
 
     def dump_console(self):
         print "Comparing:"
         print u"Layer 1 - {}".format(self.source1)
         print u"Layer 2 - {}".format(self.source2)
         print
-        table = AsciiTable(self. featurecounts, title="Feature Counts")
-        print table.table
-        print
-        print "Fields Differ: {0}".format("Yes" if self.fieldsdiffer else "No")
-        print
-        table = AsciiTable(self.fields, title="Fields")
-        table.justify_columns[1] = "center"
-        print table.table
-        print
-        table = AsciiTable(self.featurecompare, title="Value Compare")
-        table.justify_columns[1] = "center"
-        print table.table
+        if self.featurecounts:
+            table = self.TableType(self. featurecounts, title="Feature Counts")
+            print table.table
+            print
+
+        if self.fields:
+            print "Fields Differ: {0}".format("Yes" if self.fieldsdiffer else "No")
+            table = self.TableType(self.fields, title="Fields")
+            table.justify_columns[1] = "center"
+            table.inner_heading_row_border = False
+            print table.table
+            print
+        if self.featurecompare:
+            table = self.TableType(self.featurecompare, title="Value Compare")
+            table.justify_columns[1] = "center"
+            print table.table
 
 def compare(source1, source2, args=None):
     if not args:
@@ -49,18 +60,21 @@ def compare(source1, source2, args=None):
     layer1 = source1.GetLayer()
     layer2 = source2.GetLayer()
 
-    compare_layers(layer1, layer2)
-    compare_feature_counts(layer1, layer2)
-
-    compare_same_fields = "--matched-fields-only" in args
-    print  args
-    print compare_same_fields
-    compare_features(layer1, layer2, compare_common_fields=compare_same_fields)
+    if args.schema_only:
+        compare_fields(layer1, layer2)
+    else:
+        compare_fields(layer1, layer2)
+        compare_feature_counts(layer1, layer2)
+        compare_features(layer1, layer2, compare_common_fields=args.matched_fields_only)
 
     Windows.enable()
     results.dump_console()
 
-def compare_features(layer1, layer2, compare_common_fields=True):
+def compare_features(layer1,
+                     layer2,
+                     compare_common_fields=True,
+                     ignore_equal=True
+                     ):
     fields1 = _getfields(layer1, names_only=True)
     fields2 = _getfields(layer2, names_only=True)
     iter1 = iter(layer1)
@@ -84,6 +98,8 @@ def compare_features(layer1, layer2, compare_common_fields=True):
             value2 = f2.GetField(field)
         except ValueError:
             value2 = NODATA
+        if value1 == value2 and ignore_equal:
+            continue
         values1.append(value1)
         values2.append(value2)
     results.featurecompare = _gen_compare_table(values1, values2, rowtitles=rowtitles)
@@ -116,7 +132,7 @@ def _gen_compare_table(list1, list2, rowtitles=None):
         header.insert(0, rowtitles[0])
 
     comparetable = []
-    comparetable.append(header)
+    # comparetable.append(header)
     for count, items  in enumerate(itertools.izip_longest(list1, list2, fillvalue="--"), start=1):
         item1, item2 = items[0], items[1]
         op = "="
@@ -139,7 +155,7 @@ def compare_feature_counts(layer1, layer2):
     featureCount2 = layer2.GetFeatureCount()
     results.featurecounts = _gen_compare_table([featureCount1], [featureCount2])
 
-def compare_layers(layer1, layer2):
+def compare_fields(layer1, layer2):
     fields1 =  _getfields(layer1)
     fields2 =  _getfields(layer2)
     samefields = set(fields1) & set(fields2)
@@ -150,10 +166,29 @@ def compare_layers(layer1, layer2):
     results.fields = _gen_compare_table(fields1, fields2)
 
 
-
 if __name__ == "__main__":
-    Windows.enable()
+    parser = argparse.ArgumentParser(description='Compare two datasets')
+    parser.add_argument('--matched-fields-only', action='store_true')
+    parser.add_argument('--schema-only', action='store_true')
+
+    args = parser.parse_args()
+
     source = r"F:\gis_data\test3.shp"
     source2 = r"F:\gis_data\testfiles.shp"
-    compare(source, source2)
+    source2 = r"F:\gis_data\QGIS_Training\AssetSnapshot\Drainage\SW_Structures.TAB"
+
+    print
+    print "---------------------"
+    print
+    compare(source, source2, args)
+    print
+    print "---------------------"
+    print
+    source = r"F:\gis_data\test3.shp"
+    source2 = r"F:\gis_data\test3.shp"
+    compare(source, source2, args)
+    Windows.enable()
+    source = r"F:\gis_data\test3.shp"
+    source2 = r"F:\gis_data\test4.shp"
+    compare(source, source2, args)
     results.dump_console()
