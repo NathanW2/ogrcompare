@@ -20,6 +20,7 @@ class Results:
     def __init__(self, source1, source2):
         self.fields = []
         self.featurecounts = []
+        self.countsdiff = False
         self.featurecompare = []
         self.fieldsdiffer = False
         self.source1 = source1
@@ -32,7 +33,7 @@ class Results:
         print u"Layer 2 - {}".format(self.source2)
         print
         if self.featurecounts:
-            table = self.TableType(self. featurecounts, title="Feature Counts")
+            table = self.TableType(self.featurecounts, title="Feature Counts")
             print table.table
             print
 
@@ -43,8 +44,11 @@ class Results:
             table.inner_heading_row_border = False
             print table.table
             print
+
         if self.featurecompare:
             print "Data Compare"
+            if self.countsdiff:
+                print "Feature counts diff. Value compare is cut off at shortest layer."
             for comparedata in self.featurecompare:
                 name1, name2, data = comparedata[0], comparedata[1], comparedata[2]
                 if not data:
@@ -93,7 +97,11 @@ def compare_features(layer1,
     for f1 in iter1:
         values1 = []
         values2 = []
-        f2 = iter2.next()
+        try:
+            f2 = iter2.next()
+        except StopIteration:
+            break
+
         for field in rowtitles[1:]:
             try:
                 value1 = f1.GetField(field)
@@ -164,6 +172,7 @@ def compare_feature_counts(layer1, layer2):
     featureCount1 = layer1.GetFeatureCount()
     featureCount2 = layer2.GetFeatureCount()
     results.featurecounts = _gen_compare_table([featureCount1], [featureCount2])
+    results.countsdiff = featureCount2 != featureCount1
 
 def compare_fields(layer1, layer2):
     fields1 =  _getfields(layer1)
