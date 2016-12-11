@@ -64,6 +64,8 @@ def compare(source1, source2, args=None):
 
     global results
     results = Results(source1, source2)
+    if args.ascii:
+        results.TableType = AsciiTable
 
     source1 = ogr.Open(source1)
     source2 = ogr.Open(source2)
@@ -190,10 +192,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Compare two OGR datasets')
     parser.add_argument('--matched-fields-only', action='store_true', help="Only show matching fields when comparing data.")
     parser.add_argument('--schema-only', action='store_true', help="Only compare schemas.")
+    parser.add_argument('--ascii', action='store_true', help="Generate the report tables in ascii mode. Use this if you want to pipe stdout")
     parser.add_argument('Source1', help='OGR supported format')
     parser.add_argument('Source2', help='OGR supported format')
 
     args = parser.parse_args()
-    print args.Source1
-    print args.Source2
     compare(args.Source1, args.Source2, args)
