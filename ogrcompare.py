@@ -24,7 +24,7 @@ class Results:
         self.fieldsdiffer = False
         self.source1 = source1
         self.source2 = source2
-        self.TableType = AsciiTable
+        self.TableType = SingleTable
 
     def dump_console(self):
         print "Comparing:"
@@ -44,9 +44,15 @@ class Results:
             print table.table
             print
         if self.featurecompare:
-            table = self.TableType(self.featurecompare, title="Value Compare")
-            table.justify_columns[1] = "center"
-            print table.table
+            print "Data Compare"
+            for comparedata in self.featurecompare:
+                name1, name2, data = comparedata[0], comparedata[1], comparedata[2]
+                if not data:
+                    continue
+                table = self.TableType(data, title="{} vs {}".format(name1, name2))
+                table.inner_heading_row_border = False
+                table.justify_columns[1] = "center"
+                print table.table
 
 def compare(source1, source2, args=None):
     if not args:
@@ -60,10 +66,8 @@ def compare(source1, source2, args=None):
     layer1 = source1.GetLayer()
     layer2 = source2.GetLayer()
 
-    if args.schema_only:
-        compare_fields(layer1, layer2)
-    else:
-        compare_fields(layer1, layer2)
+    compare_fields(layer1, layer2)
+    if not args.schema_only:
         compare_feature_counts(layer1, layer2)
         compare_features(layer1, layer2, compare_common_fields=args.matched_fields_only)
 
@@ -79,30 +83,36 @@ def compare_features(layer1,
     fields2 = _getfields(layer2, names_only=True)
     iter1 = iter(layer1)
     iter2 = iter(layer2)
-    f1 = iter1.next()
-    f2 = iter2.next()
     if compare_common_fields:
         rowtitles = list(set(fields1) & set(fields2))
     else:
         rowtitles = list(set(fields1 + fields2))
 
     rowtitles.insert(0, "Fields")
-    values1 = []
-    values2 = []
-    for field in rowtitles[1:]:
-        try:
-            value1 = f1.GetField(field)
-        except ValueError:
-            value1 = NODATA
-        try:
-            value2 = f2.GetField(field)
-        except ValueError:
-            value2 = NODATA
-        if value1 == value2 and ignore_equal:
-            continue
-        values1.append(value1)
-        values2.append(value2)
-    results.featurecompare = _gen_compare_table(values1, values2, rowtitles=rowtitles)
+    count = 0
+    for f1 in iter1:
+        values1 = []
+        values2 = []
+        f2 = iter2.next()
+        for field in rowtitles[1:]:
+            try:
+                value1 = f1.GetField(field)
+            except ValueError:
+                value1 = NODATA
+            try:
+                value2 = f2.GetField(field)
+            except ValueError:
+                value2 = NODATA
+            if value1 == value2 and ignore_equal:
+                continue
+            values1.append(value1)
+            values2.append(value2)
+
+        datatable =  _gen_compare_table(values1, values2, rowtitles=rowtitles)
+        results.featurecompare.append([f1.GetFID(), f2.GetFID(), datatable])
+        # count += 1
+        # if count == 2:
+        #     break
 
 def _getfields(layer, names_only=False, keep_order=False):
     layerDefinition = layer.GetLayerDefn()
@@ -167,28 +177,14 @@ def compare_fields(layer1, layer2):
 
 
 if __name__ == "__main__":
+    Windows.enable()
     parser = argparse.ArgumentParser(description='Compare two datasets')
     parser.add_argument('--matched-fields-only', action='store_true')
     parser.add_argument('--schema-only', action='store_true')
+    parser.add_argument('Source1', help='Source 1')
+    parser.add_argument('Source2', help='Source 2')
 
     args = parser.parse_args()
-
-    source = r"F:\gis_data\test3.shp"
-    source2 = r"F:\gis_data\testfiles.shp"
-    source2 = r"F:\gis_data\QGIS_Training\AssetSnapshot\Drainage\SW_Structures.TAB"
-
-    print
-    print "---------------------"
-    print
-    compare(source, source2, args)
-    print
-    print "---------------------"
-    print
-    source = r"F:\gis_data\test3.shp"
-    source2 = r"F:\gis_data\test3.shp"
-    compare(source, source2, args)
-    Windows.enable()
-    source = r"F:\gis_data\test3.shp"
-    source2 = r"F:\gis_data\test4.shp"
-    compare(source, source2, args)
-    results.dump_console()
+    print args.Source1
+    print args.Source2
+    compare(args.Source1, args.Source2, args)
