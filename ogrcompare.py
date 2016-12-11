@@ -178,11 +178,11 @@ def compare_fields(layer1, layer2):
 
 if __name__ == "__main__":
     Windows.enable()
-    parser = argparse.ArgumentParser(description='Compare two datasets')
-    parser.add_argument('--matched-fields-only', action='store_true')
-    parser.add_argument('--schema-only', action='store_true')
-    parser.add_argument('Source1', help='Source 1')
-    parser.add_argument('Source2', help='Source 2')
+    parser = argparse.ArgumentParser(description='Compare two OGR datasets')
+    parser.add_argument('--matched-fields-only', action='store_true', help="Only show matching fields when comparing data.")
+    parser.add_argument('--schema-only', action='store_true', help="Only compare schemas.")
+    parser.add_argument('Source1', help='OGR supported format')
+    parser.add_argument('Source2', help='OGR supported format')
 
     args = parser.parse_args()
     print args.Source1
