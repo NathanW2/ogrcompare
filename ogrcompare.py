@@ -11,6 +11,58 @@ import os
 from terminaltables import SingleTable, AsciiTable, GithubFlavoredMarkdownTable
 from colorclass import Color, Windows
 
+HTMLREPORT = """
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>OGR Dataset Compare</title>
+</head>
+<body>
+<style>
+table, td {
+    border-collapse: collapse;
+   border: 0.5px solid black;
+}
+</style>
+    <h1>OGR Dataset Compare</h1>
+    <div>
+        Comparing: <b>{{source1}}</b>
+        <br>
+        Comparing: <b>{{source2}}</b>
+    </div>
+    <div>
+        <h2>Fields</h2>
+        <table>
+            {% for data in fields %}
+            <TR>
+               <TD class="c1">{{data[0]}}</TD>
+               <TD class="c2">{{data[1]}}</TD>
+               <TD class="c3">{{data[2]}}</TD>
+            </TR>
+            {% endfor %}
+        </table>
+    <div>
+    <div>
+        <h2>Featurs</h2>
+            {% for feature in features %}
+                <table>
+                {% for data in feature[2] %}
+                    <TR>
+                       <TD class="c1">{{data[0]}}</TD>
+                       <TD class="c2">{{data[1]}}</TD>
+                       <TD class="c3">{{data[2]}}</TD>
+                       <TD class="c3">{{data[3]}}</TD>
+                    </TR>
+                {% endfor %}
+                </table>
+                <br>
+            {% endfor %}
+    <div>
+</body>
+</html>
+"""
+
 NODATA = "---"
 #
 # def eprint(*args, **kwargs):
@@ -58,6 +110,17 @@ class Results:
                 table.justify_columns[1] = "center"
                 print table.table
 
+    def dump_html(self):
+        from jinja2 import Template
+        template = Template(HTMLREPORT)
+        data = {
+            "source1": self.source1,
+            "source2": self.source2,
+            "fields": self.fields,
+            "features": self.featurecompare
+        }
+        print template.render(**data)
+
 def compare(source1, source2, args=None):
     if not args:
         args = []
@@ -81,7 +144,10 @@ def compare(source1, source2, args=None):
                          ignore_equal=not args.report_all)
 
     Windows.enable()
-    results.dump_console()
+    if args.html:
+        results.dump_html()
+    else:
+        results.dump_console()
 
 def compare_features(layer1,
                      layer2,
@@ -220,6 +286,7 @@ if __name__ == "__main__":
     parser.add_argument('--report-all', action='store_true', help="Include all fields even if equal")
     parser.add_argument('--schema-only', action='store_true', help="Only compare schemas.")
     parser.add_argument('--ascii', action='store_true', help="Generate the report tables in ascii mode. Use this if you want to pipe stdout")
+    parser.add_argument('--html', action='store_true', help="Create a HTML report")
     parser.add_argument('Source1', help='OGR supported format')
     parser.add_argument('Source2', help='OGR supported format')
 
