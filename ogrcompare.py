@@ -28,14 +28,8 @@ table, th, td {
     border: 0.5px solid #ddd;
     padding: 0.25em;
 }
-tr:nth-child(odd) {
-    background-color: #eee;
-}
-tr:nth-child(even) {
-    background-color: #f8f8f8;
-}
 th {
-    text-align: right;
+    text-align: left;
 }
 .match {
     background-color: {{color_match}};
@@ -60,6 +54,11 @@ th {
     <div>
         <h2>Fields</h2>
         <table>
+            <tr>
+                <th>{{source1}}</th>
+                <th></th>
+                <th>{{source2}}</th>
+            </tr>
             {% for data in fields %}
             {% if data[1] == "=" %}
                 {% set matched = 'match' %}
@@ -78,6 +77,12 @@ th {
         <h2>Features</h2>
         {% for feature in features %}
         <table>
+            <tr>
+                <th></th>
+                <th>{{source1}}</th>
+                <th></th>
+                <th>{{source2}}</th>
+            </tr>
             {% for data in feature[2] %}
             {% if data[2] == "=" %}
                 {% set matched = 'match' %}
