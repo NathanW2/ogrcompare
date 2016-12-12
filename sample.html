@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>OGR Dataset Compare</title>
+</head>
+<body>
+<style>
+table, td {
+    border-collapse: collapse;
+    border: 0.5px solid black;
+}
+</style>
+    <h1>OGR Dataset Compare</h1>
+    <div>
+        Comparing: <b>F:\gis_data\test3.shp</b>
+        <br>
+        Comparing: <b>F:\gis_data\test4.shp</b>
+    </div>
+    <div>
+        <h2>Fields</h2>
+        <table>
+            
+            <tr>
+               <td class="c1">ET_ID (Integer (8 0)</td>
+               <td class="c2">=</td>
+               <td class="c3">ET_ID (Integer (8 0)</td>
+            </td>
+            
+            <tr>
+               <td class="c1">Group (String (254 0)</td>
+               <td class="c2">=</td>
+               <td class="c3">Group (String (254 0)</td>
+            </td>
+            
+            <tr>
+               <td class="c1">Layer (String (254 0)</td>
+               <td class="c2">=</td>
+               <td class="c3">Layer (String (254 0)</td>
+            </td>
+            
+            <tr>
+               <td class="c1">Layer_1 (String (254 0)</td>
+               <td class="c2">=</td>
+               <td class="c3">Layer_1 (String (254 0)</td>
+            </td>
+            
+            <tr>
+               <td class="c1">--</td>
+               <td class="c2">!=</td>
+               <td class="c3">NewField1 (Integer (1 0)</td>
+            </td>
+            
+            <tr>
+               <td class="c1">--</td>
+               <td class="c2">!=</td>
+               <td class="c3">NewField2 (String (21 0)</td>
+            </td>
+            
+        </table>
+    </div>
+    <div>
+        <h2>Features</h2>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">AIR COMPRESS LINE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">AIR COMPRESS LINE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">0</td>
+                       <td class="c3">=</td>
+                       <td class="c3">0</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">AIR COMPRESS LINE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">AIR COMPRESS LINE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">LINESTRING (35136.8028 111480.</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">LINESTRING (35136.8028 111480.</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">ASH DRAIN</td>
+                       <td class="c3">=</td>
+                       <td class="c3">ASH DRAIN</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">1</td>
+                       <td class="c3">=</td>
+                       <td class="c3">1</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">ASH DRAIN</td>
+                       <td class="c3">=</td>
+                       <td class="c3">ASH DRAIN</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">MULTILINESTRING ((35836.5093 1</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">MULTILINESTRING ((35836.5093 1</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">ASH LINE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">ASH LINE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">2</td>
+                       <td class="c3">=</td>
+                       <td class="c3">2</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">ASH LINE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">ASH LINE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">MULTILINESTRING ((35881.7111 1</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">MULTILINESTRING ((35881.7111 1</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">TRAIN SIGNAL</td>
+                       <td class="c3">=</td>
+                       <td class="c3">TRAIN SIGNAL</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">46</td>
+                       <td class="c3">=</td>
+                       <td class="c3">46</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">TRAIN SIGNAL</td>
+                       <td class="c3">=</td>
+                       <td class="c3">TRAIN SIGNAL</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">MULTILINESTRING ((36047.972 11</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">MULTILINESTRING ((36047.972 11</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">UNKNOWN</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">48</td>
+                       <td class="c3">=</td>
+                       <td class="c3">48</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">UNKNOWN</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">MULTILINESTRING ((36194.8145 1</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">MULTILINESTRING ((36194.814500</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">UNKNOWN CABLE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN CABLE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">49</td>
+                       <td class="c3">=</td>
+                       <td class="c3">49</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">UNKNOWN CABLE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN CABLE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">MULTILINESTRING ((36065.1996 1</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">MULTILINESTRING ((36065.1996 1</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">UNKNOWN OUTLET</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN OUTLET</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">50</td>
+                       <td class="c3">=</td>
+                       <td class="c3">50</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">UNKNOWN OUTLET</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN OUTLET</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">LINESTRING (35788.7497 112144.</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">LINESTRING (35788.7497 112144.</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">UNKNOWN PIPE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN PIPE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">51</td>
+                       <td class="c3">=</td>
+                       <td class="c3">51</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">UNKNOWN PIPE</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN PIPE</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">MULTILINESTRING ((37043.889 11</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">MULTILINESTRING ((37043.889 11</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+                <table>
+                
+                    <tr>
+                       <td class="c1">Layer</td>
+                       <td class="c2">UNKNOWN PIPE75DIA</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN PIPE75DIA</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Group</td>
+                       <td class="c2">SERVICES MISCELLANEOUS</td>
+                       <td class="c3">=</td>
+                       <td class="c3">SERVICES MISCELLANEOUS</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField2</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">ET_ID</td>
+                       <td class="c2">52</td>
+                       <td class="c3">=</td>
+                       <td class="c3">52</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">Layer_1</td>
+                       <td class="c2">UNKNOWN PIPE75DIA</td>
+                       <td class="c3">=</td>
+                       <td class="c3">UNKNOWN PIPE75DIA</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">NewField1</td>
+                       <td class="c2">---</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">None</td>
+                    </tr>
+                
+                    <tr>
+                       <td class="c1">GEOMETRY</td>
+                       <td class="c2">LINESTRING (33666.9279 111754.</td>
+                       <td class="c3">!=</td>
+                       <td class="c3">LINESTRING (33666.9279 111754.</td>
+                    </tr>
+                
+                </table>
+                <br>
+            
+    </div>
+</body>
+</html>
