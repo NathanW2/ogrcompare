@@ -8,6 +8,9 @@ import itertools
 from osgeo import ogr
 import os
 
+from terminaltables import SingleTable, AsciiTable, GithubFlavoredMarkdownTable
+from colorclass import Color, Windows
+
 HTMLREPORT = """
 <!DOCTYPE html>
 <html>
@@ -77,25 +80,21 @@ class Results:
         self.fieldsdiffer = False
         self.source1 = source1
         self.source2 = source2
-        self.mode = "Clean"
+        self.TableType = SingleTable
 
     def dump_console(self):
-        if self.mode == "Clean":
-            TableType = SingleTable
-        else:
-            TableType = AsciiTable
         print "Comparing:"
         print u"Layer 1 - {}".format(self.source1)
         print u"Layer 2 - {}".format(self.source2)
         print
         if self.featurecounts:
-            table = TableType(self.featurecounts, title="Feature Counts")
+            table = self.TableType(self.featurecounts, title="Feature Counts")
             print table.table
             print
 
         if self.fields:
             print "Fields Differ: {0}".format("Yes" if self.fieldsdiffer else "No")
-            table = TableType(self.fields, title="Fields")
+            table = self.TableType(self.fields, title="Fields")
             table.justify_columns[1] = "center"
             table.inner_heading_row_border = False
             print table.table
@@ -109,7 +108,7 @@ class Results:
                 name1, name2, data = comparedata[0], comparedata[1], comparedata[2]
                 if not data:
                     continue
-                table = TableType(data, title="{} vs {}".format(name1, name2))
+                table = self.TableType(data, title="{} vs {}".format(name1, name2))
                 table.inner_heading_row_border = False
                 table.justify_columns[1] = "center"
                 print table.table
@@ -132,7 +131,7 @@ def compare(source1, source2, args=None):
     global results
     results = Results(source1, source2)
     if args.ascii:
-        results.mode = "ascii"
+        results.TableType = AsciiTable
 
     source1 = ogr.Open(source1)
     source2 = ogr.Open(source2)
@@ -147,6 +146,7 @@ def compare(source1, source2, args=None):
                          compare_common_fields=args.matched_fields_only,
                          ignore_equal=not args.report_all)
 
+    Windows.enable()
     if args.html:
         results.dump_html()
     else:
@@ -251,15 +251,9 @@ def _gen_compare_table(list1, list2, rowtitles=None):
 
         op = "="
         if item1 != item2:
-            if Color:
-                op = Color(r'{autored}!={/autored}')
-            else:
-                op = "!="
+            op = Color(r'{autored}!={/autored}')
         elif item1 == item2:
-            if Color:
-                op = Color(r'{autogreen}={/autogreen}')
-            else:
-                op = "="
+            op = Color(r'{autogreen}={/autogreen}')
 
         data = [display1, op, display2]
         if rowtitles:
@@ -289,6 +283,7 @@ def compare_fields(layer1, layer2):
 
 
 if __name__ == "__main__":
+    Windows.enable()
     parser = argparse.ArgumentParser(description='Compare two OGR datasets')
     parser.add_argument('--matched-fields-only', action='store_true', help="Only show matching fields when comparing data.")
     parser.add_argument('--report-all', action='store_true', help="Include all fields even if equal")
@@ -299,8 +294,4 @@ if __name__ == "__main__":
     parser.add_argument('Source2', help='OGR supported format')
 
     args = parser.parse_args()
-    if not args.html:
-        from terminaltables import SingleTable, AsciiTable
-        from colorclass import Color, Windows
-        Windows.enable()
     compare(args.Source1, args.Source2, args)
