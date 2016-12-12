@@ -38,10 +38,10 @@ th {
     text-align: right;
 }
 .match {
-    background-color: #dff5e1;
+    background-color: {{color_match}};
 }
 .nomatch {
-    background-color: #f5e5df;
+    background-color: {{color_nomatch}};
 }
 </style>
     <h1>OGR Dataset Compare</h1>
@@ -152,14 +152,16 @@ class Results:
                 table.justify_columns[1] = "center"
                 print table.table
 
-    def dump_html(self):
+    def dump_html(self, color_match, color_nomatch):
         from jinja2 import Template
         template = Template(HTMLREPORT, trim_blocks=True, keep_trailing_newline=False, lstrip_blocks=True)
         data = {
             "source1": self.source1,
             "source2": self.source2,
             "fields": self.fields,
-            "features": self.featurecompare
+            "features": self.featurecompare,
+            "color_match": color_match,
+            "color_nomatch": color_nomatch
         }
         print template.render(**data)
 
@@ -186,7 +188,7 @@ def compare(source1, source2, args=None):
                          ignore_equal=not args.report_all)
 
     if args.html:
-        results.dump_html()
+        results.dump_html(args.color_match, args.color_nomatch)
     else:
         results.dump_console()
 
@@ -333,6 +335,8 @@ if __name__ == "__main__":
     parser.add_argument('--schema-only', action='store_true', help="Only compare schemas.")
     parser.add_argument('--ascii', action='store_true', help="Generate the report tables in ascii mode. Use this if you want to pipe stdout")
     parser.add_argument('--html', action='store_true', help="Create a HTML report")
+    parser.add_argument('--color_match', nargs='?', default='#dff5e1', help="Background color for matching values")
+    parser.add_argument('--color_nomatch', nargs='?', default='#f5e5df', help="Background color for differing values")
     parser.add_argument('Source1', help='OGR supported format')
     parser.add_argument('Source2', help='OGR supported format')
 

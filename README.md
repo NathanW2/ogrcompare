@@ -1,8 +1,8 @@
 # OGR Compare
 
-Compare OGR dataset on the command line.
+Compare OGR datasets on the command line.
 
-Reports differeence in schema, data, feature count, etc
+Reports difference in schema, data, feature count, etc
 
 ## Usage
 
@@ -15,6 +15,7 @@ Reports differeence in schema, data, feature count, etc
 ```
 usage: ogrcompare.py [-h] [--matched-fields-only] [--report-all]
                      [--schema-only] [--ascii] [--html]
+                     [--color_match CSSCOLOR] [--color_nomatch CSSCOLOR]
                      Source1 Source2
 
 Compare two OGR datasets
@@ -32,6 +33,8 @@ optional arguments:
   --ascii               Generate the report tables in ascii mode. Use this if
                         you want to pipe stdout
   --html                Create a HTML report
+  --color_match         Background color for matching values
+  --color_nomatch       Background color for differing values
 ```
 
 
