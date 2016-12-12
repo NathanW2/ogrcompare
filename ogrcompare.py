@@ -20,16 +20,36 @@ HTMLREPORT = """
 </head>
 <body>
 <style>
+body {
+    font-family: sans-serif;
+}
+table {
+    margin-bottom: 1em;
+}
 table, td {
     border-collapse: collapse;
-    border: 0.5px solid black;
+    border: 0.5px solid #ddd;
+    padding: 0.25em;
+}
+tr:nth-child(odd) {
+    background-color: #eee;
+}
+tr:nth-child(even) {
+    background-color: #fff;
 }
 </style>
     <h1>OGR Dataset Compare</h1>
     <div>
-        Comparing: <b>{{source1}}</b>
-        <br>
-        Comparing: <b>{{source2}}</b>
+        <table>
+            <tr>
+                <th>Source 1: </th>
+                <td>{{source1}}</td>
+            </tr>
+            <tr>
+                <th>Source 2:</th>
+                <td>{{source2}}</td>
+            </tr>
+        </table>
     </div>
     <div>
         <h2>Fields</h2>
@@ -45,19 +65,18 @@ table, td {
     </div>
     <div>
         <h2>Features</h2>
-            {% for feature in features %}
-                <table>
-                {% for data in feature[2] %}
-                    <tr>
-                       <td class="c1">{{data[0]}}</td>
-                       <td class="c2">{{data[1]}}</td>
-                       <td class="c3">{{data[2]}}</td>
-                       <td class="c3">{{data[3]}}</td>
-                    </tr>
-                {% endfor %}
-                </table>
-                <br>
+        {% for feature in features %}
+        <table>
+            {% for data in feature[2] %}
+            <tr>
+                <td class="c1">{{data[0]}}</td>
+                <td class="c2">{{data[1]}}</td>
+                <td class="c3">{{data[2]}}</td>
+                <td class="c3">{{data[3]}}</td>
+            </tr>
             {% endfor %}
+        </table>
+        {% endfor %}
     </div>
 </body>
 </html>
