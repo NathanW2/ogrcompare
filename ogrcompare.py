@@ -22,7 +22,7 @@ HTMLREPORT = """
 <style>
 table, td {
     border-collapse: collapse;
-   border: 0.5px solid black;
+    border: 0.5px solid black;
 }
 </style>
     <h1>OGR Dataset Compare</h1>
@@ -35,30 +35,30 @@ table, td {
         <h2>Fields</h2>
         <table>
             {% for data in fields %}
-            <TR>
-               <TD class="c1">{{data[0]}}</TD>
-               <TD class="c2">{{data[1]}}</TD>
-               <TD class="c3">{{data[2]}}</TD>
-            </TR>
+            <tr>
+               <td class="c1">{{data[0]}}</td>
+               <td class="c2">{{data[1]}}</td>
+               <td class="c3">{{data[2]}}</td>
+            </td>
             {% endfor %}
         </table>
+    </div>
     <div>
-    <div>
-        <h2>Featurs</h2>
+        <h2>Features</h2>
             {% for feature in features %}
                 <table>
                 {% for data in feature[2] %}
-                    <TR>
-                       <TD class="c1">{{data[0]}}</TD>
-                       <TD class="c2">{{data[1]}}</TD>
-                       <TD class="c3">{{data[2]}}</TD>
-                       <TD class="c3">{{data[3]}}</TD>
-                    </TR>
+                    <tr>
+                       <td class="c1">{{data[0]}}</td>
+                       <td class="c2">{{data[1]}}</td>
+                       <td class="c3">{{data[2]}}</td>
+                       <td class="c3">{{data[3]}}</td>
+                    </tr>
                 {% endfor %}
                 </table>
                 <br>
             {% endfor %}
-    <div>
+    </div>
 </body>
 </html>
 """
