@@ -33,8 +33,8 @@ optional arguments:
   --ascii               Generate the report tables in ascii mode. Use this if
                         you want to pipe stdout
   --html                Create a HTML report
-  --color_match         Background color for matching values
-  --color_nomatch       Background color for differing values
+  --color_match         Background color for matching values (default #dff5e1)
+  --color_nomatch       Background color for differing values (default #f5e5df)
 ```
 
 
