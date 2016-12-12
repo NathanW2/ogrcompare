@@ -26,7 +26,7 @@ body {
 table {
     margin-bottom: 1em;
 }
-table, td {
+table, th, td {
     border-collapse: collapse;
     border: 0.5px solid #ddd;
     padding: 0.25em;
@@ -35,7 +35,10 @@ tr:nth-child(odd) {
     background-color: #eee;
 }
 tr:nth-child(even) {
-    background-color: #fff;
+    background-color: #f8f8f8;
+}
+th {
+    text-align: right;
 }
 </style>
     <h1>OGR Dataset Compare</h1>
@@ -69,7 +72,7 @@ tr:nth-child(even) {
         <table>
             {% for data in feature[2] %}
             <tr>
-                <td class="c1">{{data[0]}}</td>
+                <th class="c1">{{data[0]}}</th>
                 <td class="c2">{{data[1]}}</td>
                 <td class="c3">{{data[2]}}</td>
                 <td class="c3">{{data[3]}}</td>
