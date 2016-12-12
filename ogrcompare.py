@@ -17,53 +17,91 @@ HTMLREPORT = """
 </head>
 <body>
 <style>
-table, td {
+body {
+    font-family: sans-serif;
+}
+table {
+    margin-bottom: 1em;
+}
+table, th, td {
     border-collapse: collapse;
-   border: 0.5px solid black;
+    border: 0.5px solid #ddd;
+    padding: 0.25em;
+}
+tr:nth-child(odd) {
+    background-color: #eee;
+}
+tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+th {
+    text-align: right;
+}
+.match {
+    background-color: #dff5e1;
+}
+.nomatch {
+    background-color: #f5e5df;
 }
 </style>
     <h1>OGR Dataset Compare</h1>
     <div>
-        Comparing: <b>{{source1}}</b>
-        <br>
-        Comparing: <b>{{source2}}</b>
+        <table>
+            <tr>
+                <th>Source 1: </th>
+                <td>{{source1}}</td>
+            </tr>
+            <tr>
+                <th>Source 2:</th>
+                <td>{{source2}}</td>
+            </tr>
+        </table>
     </div>
     <div>
         <h2>Fields</h2>
         <table>
             {% for data in fields %}
-            <TR>
-               <TD class="c1">{{data[0]}}</TD>
-               <TD class="c2">{{data[1]}}</TD>
-               <TD class="c3">{{data[2]}}</TD>
-            </TR>
+            {% if data[1] == "=" %}
+                {% set matched = 'match' %}
+            {% else %}
+                {% set matched = 'nomatch' %}
+            {% endif %}
+            <tr>
+               <td class="c1 {{matched}}">{{data[0]}}</td>
+               <td class="c2 {{matched}}">{{data[1]}}</td>
+               <td class="c3 {{matched}}">{{data[2]}}</td>
+            </td>
             {% endfor %}
         </table>
+    </div>
     <div>
-    <div>
-        <h2>Featurs</h2>
-            {% for feature in features %}
-                <table>
-                {% for data in feature[2] %}
-                    <TR>
-                       <TD class="c1">{{data[0]}}</TD>
-                       <TD class="c2">{{data[1]}}</TD>
-                       <TD class="c3">{{data[2]}}</TD>
-                       <TD class="c3">{{data[3]}}</TD>
-                    </TR>
-                {% endfor %}
-                </table>
-                <br>
+        <h2>Features</h2>
+        {% for feature in features %}
+        <table>
+            {% for data in feature[2] %}
+            {% if data[2] == "=" %}
+                {% set matched = 'match' %}
+            {% else %}
+                {% set matched = 'nomatch' %}
+            {% endif %}
+            <tr>
+                <th class="c1">{{data[0]}}</th>
+                <td class="c2 {{matched}}">{{data[1]}}</td>
+                <td class="c3 {{matched}}">{{data[2]}}</td>
+                <td class="c3 {{matched}}">{{data[3]}}</td>
+            </tr>
             {% endfor %}
-    <div>
+        </table>
+        {% endfor %}
+    </div>
 </body>
 </html>
 """
 
+NODATA = "---"
+
 ## HTML outpuut has color set to noop
 Color = None
-
-NODATA = "---"
 #
 # def eprint(*args, **kwargs):
 #     print(*args, file=sys.stderr, **kwargs)
@@ -116,7 +154,7 @@ class Results:
 
     def dump_html(self):
         from jinja2 import Template
-        template = Template(HTMLREPORT)
+        template = Template(HTMLREPORT, trim_blocks=True, keep_trailing_newline=False, lstrip_blocks=True)
         data = {
             "source1": self.source1,
             "source2": self.source2,
