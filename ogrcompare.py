@@ -23,12 +23,12 @@ body {
 table {
     margin-bottom: 1em;
 }
-table, th, td {
+table {
     border-collapse: collapse;
-    border: 0.5px solid #ddd;
-    padding: 0.25em;
 }
-th {
+th, td {
+    border: 1px solid #ddd;
+    padding: 0.25em;
     text-align: left;
 }
 .match {
@@ -36,6 +36,10 @@ th {
 }
 .nomatch {
     background-color: {{color_nomatch}};
+}
+#features tr:first-child th:first-child {
+    border-top: 0px;
+    border-left: 0px;
 }
 </style>
     <h1>OGR Dataset Compare</h1>
@@ -73,7 +77,7 @@ th {
             {% endfor %}
         </table>
     </div>
-    <div>
+    <div id="features">
         <h2>Features</h2>
         {% for feature in features %}
         <table>

@@ -42,6 +42,5 @@ optional arguments:
 
 - Python
 - OGR
-- `pip install terminaltables`
-- `pip install colorclass`
-
+- `pip install terminaltables` (for non-HTML reports)
+- `pip install colorclass` (for non-HTML reports)
