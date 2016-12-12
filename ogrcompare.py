@@ -44,7 +44,7 @@ table, td {
         </table>
     </div>
     <div>
-        <h2>Featurs</h2>
+        <h2>Features</h2>
             {% for feature in features %}
                 <table>
                 {% for data in feature[2] %}
